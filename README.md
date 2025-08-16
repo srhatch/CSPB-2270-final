@@ -28,7 +28,10 @@ This is the main menu:<br>
 7: Split a Rope<br>
 8: Print Rope string
 
-Each command will contain instructions for how to enter information correctly. There are validation checks on input, but keep in mind the purpose of this is for editing genetic base pairs, so strings of base pairs, as well as indexes for various functions, will need to be divisible by 2. Usefully, option 8 can be used to check the contents of a rope to verify that edits worked properly.
+Each command will contain instructions for how to enter information correctly. There are validation checks on input, but keep in mind the purpose of this is for editing genetic base pairs, so strings of base pairs, as well as indexes for various functions, will need to be divisible by 2. Usefully, option 8 can be used to check the contents of a rope to verify that edits worked properly. Any command that requires entering the name of a Rope will print out a list of the currently saved Ropes as shown below.\
+These are the existing Ropes: 
+foo
+bar
 
 
 Challenges: I unfortunately ran out of time and wasn’t able to implement the delete function. The split function can effectively be used as a delete, because the delete algorithm just calls split twice, once for each index bound, and then concatenates the two outer trees. The split function in general was very difficult to implement and I wasn’t able to exhaustively test all cases. As such it may still be a little buggy. The command line program is also still a little buggy, and problems start to occur when performing multiple operations in sequence. If this happens, restarting the program will help. To the extent that I tested it, all of the operations seem to work when performed individually from the start of the program running. The issue is likely in the way that I’m storing the Ropes in the “front-end”, as opposed to issues with the algorithms themselves.
