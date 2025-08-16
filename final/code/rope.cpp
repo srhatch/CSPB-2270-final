@@ -1,5 +1,4 @@
 #include "rope.h"
-
 #include <iostream>
 
 tree_node* init_node(string data) {
@@ -91,6 +90,7 @@ tree_node* rebalance(tree_node* root) {
     tree_node* new_root = init_node("");
     new_root->left = connector;
     new_root->weight = weight;
+
     return new_root;
 }
 
@@ -242,7 +242,6 @@ bool insert(tree_node* root, tree_node* new_node, int index) {
 tree_node* insert_subtree(tree_node* root, tree_node* subtree, int index) {
     string direction;
     tree_node* parent = find_parent(root, index, direction);
-    
     if (direction == "left") {
         tree_node* new_node = create_new_subtree(parent->left->data);
         concat(subtree, new_node);
@@ -323,20 +322,6 @@ tree_node* split(tree_node* root, int index, split_struct& split_s) {
     split_s.original = new_left_root;
     split_s.split = new_right_root;
 }
-
-
-tree_node* delete_subtree(tree_node* root, int start, int end) {
-    split_struct split_start;
-    split_struct split_end;
-
-    split_tree(root, start, split_start);
-    split_tree(root, end, split_end);
-
-    tree_node* new_root = split_start.original;
-    concat(new_root, split_end.split);
-    return new_root;
-}
-
 
 // Utilities
 

@@ -53,17 +53,9 @@ bool insert(tree_node* root, tree_node* new_node, int index);
 
 tree_node* insert_subtree(tree_node* root, tree_node* subtree, int index);
 
-// TODO
 tree_node* split(tree_node* root, int index, split_struct& split_s);
 
 tree_node* split_tree(tree_node* root, int index, split_struct& split_s);
-
-
-
-
-// by value or by index? delete substring?
-tree_node* delete_subtree(tree_node* root, int start, int end);
-
 
 // Utilities
 int split_str(string input_str);

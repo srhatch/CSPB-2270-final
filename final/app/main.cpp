@@ -1,14 +1,7 @@
 #include <iostream>
-
-using namespace std;
-
 #include "../code/rope.h"
 
-// delete
-void rep(tree_node* test) {
-    string rep = report(test);
-    cout << rep << endl;
-}
+using namespace std;
 
 void show_menu() {
     cout << "1: Create new Rope" << endl;
@@ -19,6 +12,7 @@ void show_menu() {
     cout << "6: Search by index" << endl;
     cout << "7: Split a Rope" << endl;
     cout << "8: Print Rope string" << endl;
+    cout << "Enter \"exit\" to quit" << endl;
 }
 
 struct rope_data {
@@ -60,7 +54,6 @@ void display_existing(vector<rope_data> ropes) {
 
 int main() {
     vector<rope_data> ropes;
-
 
     bool exit = false;
     string choice;
@@ -291,90 +284,6 @@ int main() {
             }
         }
     } while (exit != true);
-
-
-
-    //split_struct split_s;
-
-    //tree_node* neww = create_rope("ATCGATCGGCATGCTAATTACGXX");
-    //tree_node* del = delete_subtree(neww, 2, 4);
-    //rep(del);
-    //tree_node* splitter = split_tree(neww, 4, split_s);
-    //insert_node(neww, "XX", 2);
-    //rep(split_s.original);
-    //rep(split_s.split);
-    //tree_node* neww1 = create_rope("BLAH");
-    //insert_subtree(neww, neww1, 6);
-    //concat(neww, neww1);
-    //tree_node* bal = rebalance(neww);
-    //rep(neww);
-    //cout << neww->left->right->weight << endl;
-
-    //string b = index_search(neww, 8, true);
-    //cout << b << endl;
-    
-
-    
-    
-    /*
-    vector<tree_node*> vec = collect_leaves(neww);
-    
-    for (int i = 0; i < vec.size(); i++) {
-        cout << vec[i]->data << endl;
-    }
-*/
-
-
-
-
-
-
-    //Rope test;
-    //Rope test1;
-
-    //test.create_rope("ATCG");
-    //test.create_rope("ATCGTAGCTA");
-    //test1.create_rope("GLAH");
-    //rep(test);
-
-    //test.insert_node("XX", 0);
-    //rep(test);
-    
-    //tree_node* con = test.concat(test1.get_root(), false);
-    
-
-    //vector<tree_node*> leaves = test.collect_leaves();
-
-
-
-    //string s = test.index_search(3, false);
-
-    //cout << s << endl;
-    
-    /*
-    for (int i = 0; i < leaves.size(); i++) {
-        cout << (leaves[i]->data) << endl;
-    }
-    */
-    
-
-    
-
-/*
-    vector<tree_node*> leaves_two = test.collect_leaves();
-    for (int i = 0; i < leaves_two.size(); i++) {
-        cout << (leaves_two[i]->data) << endl;
-    }
-
-*/    
-    //string s = test.index_search(2, false);
-    //cout << s << endl;
-
-    //cout << (leaves.length()) << endl;
-    //cout << leaves << endl;
-    
-    // tree_node* new_node = test.init_node("hey");
-    //cout << (new_node->data) << endl;
 
     return 0;
 }
