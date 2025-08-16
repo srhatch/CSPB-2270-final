@@ -17,7 +17,8 @@ void show_menu() {
     cout << "4: Insert new data into a Rope" << endl;
     cout << "5: Insert a subtree (Rope) into a Rope" << endl;
     cout << "6: Search by index" << endl;
-    cout << "7: Print Rope string" << endl;
+    cout << "7: Split a Rope" << endl;
+    cout << "8: Print Rope string" << endl;
 }
 
 struct rope_data {
@@ -36,7 +37,7 @@ tree_node* find_rope(vector<rope_data> ropes, string name) {
 int main() {
     vector<rope_data> ropes;
 
-/*
+
     bool exit = false;
     string choice;
     do {
@@ -45,12 +46,20 @@ int main() {
         if (choice == "exit") {
             exit = true;
         } else if (choice == "1") {
+            
             string rope_name;
-            string data;
             cout << "Enter a name" << endl;
             cin >> rope_name;
+
+            string data;
             cout << "Enter the string data" << endl;
             cin >> data;
+            while (data.length() % 2 == 1) {
+                cout << "Data must be divisible by 2 (an incomplete base pair was entered). Please enter string data" << endl;
+                cin >> data;
+
+            }
+
             tree_node* rope_ptr = create_rope(data);
             
             rope_data new_rope;
@@ -64,9 +73,10 @@ int main() {
             }
         } else if (choice == "3") {
             string rope1;
-            string rope2;
             cout << "Enter the name of the first Rope" << endl;
             cin >> rope1;
+
+            string rope2;
             cout << "Enter the name of the second Rope" << endl;
             cin >> rope2;
 
@@ -88,12 +98,23 @@ int main() {
             string rope_name;
             cout << "Enter a Rope name to insert into" << endl;
             cin >> rope_name;
+
             string new_data;
             cout << "Enter the new data string" << endl;
             cin >> new_data;
+            while (new_data.length() % 2 == 1) {
+                cout << "Data must be divisible by 2 (an incomplete base pair was entered). Please enter string data" << endl;
+                cin >> new_data;
+
+            }
+
             int index;
             cout << "Enter the insertion index" << endl;
             cin >> index;
+            while (index % 2 == 1) {
+                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                cin >> index;
+            }
 
             tree_node* rope = find_rope(ropes, rope_name);
 
@@ -110,6 +131,10 @@ int main() {
             int index;
             cout << "Enter the insertion index" << endl;
             cin >> index;
+            while (index % 2 == 1) {
+                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                cin >> index;
+            }
 
             tree_node* rope1 = find_rope(ropes, rope_name);
             tree_node* rope2 = find_rope(ropes, rope_name_insert);
@@ -123,12 +148,42 @@ int main() {
             int index;
             cout << "Enter the search index" << endl;
             cin >> index;
+            while (index % 2 == 1) {
+                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                cin >> index;
+            }
 
             tree_node* rope = find_rope(ropes, rope_name);
 
             string output = index_search(rope, index, true);
             cout << output << endl;
         } else if (choice == "7") {
+            string rope_name;
+            cout << "Enter the Rope to be split" << endl;
+            cin >> rope_name;
+
+            string split_name;
+            cout << "Enter a name for the split Rope" << endl;
+            cin >> split_name;
+
+            int index;
+            cout << "Enter the split index" << endl;
+            cin >> index;
+            while (index % 2 == 1) {
+                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                cin >> index;
+            }
+
+            tree_node* rope = find_rope(ropes, rope_name);
+            split_struct split_s;
+            split_tree(rope, index, split_s);
+            
+            rope_data new_rope;
+            new_rope.name = split_name;
+            new_rope.rope = split_s.split;
+            ropes.push_back(new_rope);
+
+        } else if (choice == "8") {
             string name;
             cout << "Enter a Rope name" << endl;
             cin >> name;
@@ -140,23 +195,31 @@ int main() {
                 }
             }
             string rep = report(rope);
-            cout << "Data: " << rep << endl;
+            if (rep.length() == 0) {
+                cout << "No rope by that name was found" << endl;
+            } else {
+                cout << "Data: " << rep << endl;
+            }
         }
 
     } while (exit != true);
-*/
 
 
 
+    //split_struct split_s;
 
-    tree_node* neww = create_rope("ATCGTACGXX");
-    insert_node(neww, "XX", 2);
-    rep(neww);
-    tree_node* neww1 = create_rope("BLAH");
-    insert_subtree(neww, neww1, 6);
-    concat(neww, neww1);
+    //tree_node* neww = create_rope("ATCGATCGGCATGCTAATTACGXX");
+    //tree_node* del = delete_subtree(neww, 2, 4);
+    //rep(del);
+    //tree_node* splitter = split_tree(neww, 4, split_s);
+    //insert_node(neww, "XX", 2);
+    //rep(split_s.original);
+    //rep(split_s.split);
+    //tree_node* neww1 = create_rope("BLAH");
+    //insert_subtree(neww, neww1, 6);
+    //concat(neww, neww1);
     //tree_node* bal = rebalance(neww);
-    rep(neww);
+    //rep(neww);
     //cout << neww->left->right->weight << endl;
 
     //string b = index_search(neww, 8, true);

@@ -14,6 +14,11 @@ struct tree_node {
     string data;
 };
 
+struct split_struct {
+    tree_node* original;
+    tree_node* split;
+};
+
 tree_node* init_node(string data);
 
 void concat(tree_node* root_tree, tree_node* concat_tree);
@@ -49,12 +54,15 @@ bool insert(tree_node* root, tree_node* new_node, int index);
 tree_node* insert_subtree(tree_node* root, tree_node* subtree, int index);
 
 // TODO
-tree_node* split(tree_node* root, int index);
+tree_node* split(tree_node* root, int index, split_struct& split_s);
+
+tree_node* split_tree(tree_node* root, int index, split_struct& split_s);
+
+
+
 
 // by value or by index? delete substring?
-bool delete_node();
-
-tree_node* undo(string action);
+tree_node* delete_subtree(tree_node* root, int start, int end);
 
 
 // Utilities

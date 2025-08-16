@@ -1,6 +1,5 @@
 #include "rope.h"
 
-
 #include <iostream>
 
 // Delete
@@ -249,11 +248,11 @@ bool insert(tree_node* root, tree_node* new_node, int index) {
 }
 
 tree_node* insert_subtree(tree_node* root, tree_node* subtree, int index) {
-
+/*
     if (index > root->weight) {
         return;
     }
-
+*/
     string direction;
     tree_node* parent = find_parent(root, index, direction);
     
@@ -268,6 +267,89 @@ tree_node* insert_subtree(tree_node* root, tree_node* subtree, int index) {
     }
     tree_node* balanced = rebalance(root);
     return balanced;
+}
+
+tree_node* split_tree(tree_node* root, int index, split_struct& split_s) {
+    tree_node* new_split = split(root, index, split_s);
+    tree_node* original_balanced = rebalance(split_s.original);
+    tree_node* split_balanced = rebalance(split_s.split);
+    split_s.original = original_balanced;
+    split_s.split = split_balanced;
+}
+
+tree_node* split(tree_node* root, int index, split_struct& split_s) {
+    vector<tree_node*> right_subtrees;
+    vector<tree_node*> left_subtrees;
+
+    //vector<tree_node*> ancestors;
+
+    tree_node* current = root->left;
+    while (current != NULL) {
+        if (index < current->weight) {
+            if (current->left->is_leaf == true) {
+                if (current->right != NULL) {
+                    right_subtrees.push_back(current->right);
+                }
+                if (current->left != NULL) {
+                    right_subtrees.push_back(current->left);
+                }
+                current->left == NULL;
+                current->right == NULL;
+                break;
+            }
+            if (current->right != NULL) {
+                right_subtrees.push_back(current->right);
+                current->right = NULL;
+            }
+            current = current->left;
+        } else if (index >= current->weight) {
+            if (current->left != NULL) {
+                left_subtrees.push_back(current->left);
+            }
+            if (current->right->is_leaf == true) {
+                right_subtrees.push_back(current->right);
+                current->right = NULL;
+                break;
+            }
+            
+            index = index - current->weight;
+            current = current->right;
+        }
+    }
+
+
+    // run concat on each subtree
+    tree_node* new_right_root = init_node("");
+    for (int i = right_subtrees.size() - 1; i >= 0; i--) {
+        tree_node* new_node = init_node("");
+        new_node->left = right_subtrees[i];
+        new_node->weight = right_subtrees[i]->data.size();
+        concat(new_right_root, new_node);
+    }
+    
+    tree_node* new_left_root = init_node("");
+    for (int i = 0; i < left_subtrees.size(); i++) {
+        tree_node* new_node = init_node("");
+        new_node->left = left_subtrees[i];
+        new_node->weight = left_subtrees[i]->data.size();
+        concat(new_left_root, new_node);
+    }
+
+    split_s.original = new_left_root;
+    split_s.split = new_right_root;
+}
+
+
+tree_node* delete_subtree(tree_node* root, int start, int end) {
+    split_struct split_start;
+    split_struct split_end;
+
+    split_tree(root, start, split_start);
+    split_tree(root, end, split_end);
+
+    tree_node* new_root = split_start.original;
+    concat(new_root, split_end.split);
+    return new_root;
 }
 
 
