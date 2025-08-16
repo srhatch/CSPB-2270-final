@@ -34,6 +34,30 @@ tree_node* find_rope(vector<rope_data> ropes, string name) {
     }
 }
 
+int find_rope_index(vector<rope_data> ropes, string name) {
+    for (int i = 0; i < ropes.size(); i++) {
+        if (ropes[i].name == name) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+bool check_existing(string name, vector<rope_data> ropes) {
+    for (int i = 0; i < ropes.size(); i++) {
+        if (ropes[i].name == name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void display_existing(vector<rope_data> ropes) {
+    for (int i = 0; i < ropes.size(); i++) {
+        cout << ropes[i].name << endl;
+    }
+}
+
 int main() {
     vector<rope_data> ropes;
 
@@ -50,6 +74,10 @@ int main() {
             string rope_name;
             cout << "Enter a name" << endl;
             cin >> rope_name;
+            while (check_existing(rope_name, ropes) == true) {
+                cout << "There is already a Rope by that name" << endl;
+                cin >> rope_name;
+            }
 
             string data;
             cout << "Enter the string data" << endl;
@@ -68,140 +96,200 @@ int main() {
             ropes.push_back(new_rope);
 
         } else if (choice == "2") {
-            for (int i = 0; i < ropes.size(); i++) {
-                cout << ropes[i].name << endl;
+            if (ropes.size() == 0) {
+                cout << "There are no Ropes to display" << endl;
+            } else {
+                display_existing(ropes);
             }
         } else if (choice == "3") {
-            string rope1;
-            cout << "Enter the name of the first Rope" << endl;
-            cin >> rope1;
-
-            string rope2;
-            cout << "Enter the name of the second Rope" << endl;
-            cin >> rope2;
-
-            tree_node* first;
-            for (int i = 0; i < ropes.size(); i++) {
-                if (ropes[i].name == rope1) {
-                    first = ropes[i].rope;
-                }
-            }
-            tree_node* second;
-            for (int i = 0; i < ropes.size(); i++) {
-                if (ropes[i].name == rope2) {
-                    second = ropes[i].rope;
-                }
-            }
-
-            concat(first, second);
-        } else if (choice == "4") {
-            string rope_name;
-            cout << "Enter a Rope name to insert into" << endl;
-            cin >> rope_name;
-
-            string new_data;
-            cout << "Enter the new data string" << endl;
-            cin >> new_data;
-            while (new_data.length() % 2 == 1) {
-                cout << "Data must be divisible by 2 (an incomplete base pair was entered). Please enter string data" << endl;
-                cin >> new_data;
-
-            }
-
-            int index;
-            cout << "Enter the insertion index" << endl;
-            cin >> index;
-            while (index % 2 == 1) {
-                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
-                cin >> index;
-            }
-
-            tree_node* rope = find_rope(ropes, rope_name);
-
-            insert_node(rope, new_data, index);
-        } else if (choice == "5") {
-            string rope_name;
-            cout << "Enter a Rope name to insert into" << endl;
-            cin >> rope_name;
-
-            string rope_name_insert;
-            cout << "Enter a Rope name to be inserted" << endl;
-            cin >> rope_name_insert;
-
-            int index;
-            cout << "Enter the insertion index" << endl;
-            cin >> index;
-            while (index % 2 == 1) {
-                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
-                cin >> index;
-            }
-
-            tree_node* rope1 = find_rope(ropes, rope_name);
-            tree_node* rope2 = find_rope(ropes, rope_name_insert);
-
-            insert_subtree(rope1, rope2, index);
-        } else if (choice == "6") {
-            string rope_name;
-            cout << "Enter the Rope to be searched" << endl;
-            cin >> rope_name;
-
-            int index;
-            cout << "Enter the search index" << endl;
-            cin >> index;
-            while (index % 2 == 1) {
-                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
-                cin >> index;
-            }
-
-            tree_node* rope = find_rope(ropes, rope_name);
-
-            string output = index_search(rope, index, true);
-            cout << output << endl;
-        } else if (choice == "7") {
-            string rope_name;
-            cout << "Enter the Rope to be split" << endl;
-            cin >> rope_name;
-
-            string split_name;
-            cout << "Enter a name for the split Rope" << endl;
-            cin >> split_name;
-
-            int index;
-            cout << "Enter the split index" << endl;
-            cin >> index;
-            while (index % 2 == 1) {
-                cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
-                cin >> index;
-            }
-
-            tree_node* rope = find_rope(ropes, rope_name);
-            split_struct split_s;
-            split_tree(rope, index, split_s);
-            
-            rope_data new_rope;
-            new_rope.name = split_name;
-            new_rope.rope = split_s.split;
-            ropes.push_back(new_rope);
-
-        } else if (choice == "8") {
-            string name;
-            cout << "Enter a Rope name" << endl;
-            cin >> name;
-
-            tree_node* rope;
-            for (int i = 0; i < ropes.size(); i++) {
-                if (ropes[i].name == name) {
-                    rope = ropes[i].rope;
-                }
-            }
-            string rep = report(rope);
-            if (rep.length() == 0) {
-                cout << "No rope by that name was found" << endl;
+            if (ropes.size() < 2) {
+                cout << "There are not enough Ropes to concatenate" << endl;
             } else {
-                cout << "Data: " << rep << endl;
+                cout << "These are the existing Ropes: " << endl;
+                display_existing(ropes);
+
+                string rope_1_name;
+                cout << "Enter the name of the first Rope" << endl;
+                cin >> rope_1_name;
+                tree_node* rope1 = find_rope(ropes, rope_1_name);
+                while (rope1 == NULL) {
+                    cout << "No rope by the name " << rope_1_name << " was found" << endl;
+                    cin >> rope_1_name;
+                    rope1 = find_rope(ropes, rope_1_name);
+                }
+
+                string rope_2_name;
+                cout << "Enter the name of the second Rope" << endl;
+                cin >> rope_2_name;
+
+                tree_node* rope2 = find_rope(ropes, rope_2_name);
+                while (rope2 == NULL) {
+                    cout << "No rope by the name " << rope_2_name << " was found" << endl;
+                    cin >> rope_2_name;
+                    rope2 = find_rope(ropes, rope_2_name);
+                }
+
+                concat(rope1, rope2);
+            }
+        } else if (choice == "4") {
+            if (ropes.size() == 0) {
+                cout << "There are no Ropes" << endl;
+            } else {
+                cout << "These are the existing Ropes: " << endl;
+                display_existing(ropes);
+                string rope_name;
+                cout << "Enter a Rope name to insert into" << endl;
+                cin >> rope_name;
+                tree_node* rope = find_rope(ropes, rope_name);
+                while (rope == NULL) {
+                    cout << "No rope by the name " << rope_name << " was found" << endl;
+                    cin >> rope_name;
+                    rope = find_rope(ropes, rope_name);
+                }
+
+                string new_data;
+                cout << "Enter the new data string" << endl;
+                cin >> new_data;
+                while (new_data.length() % 2 == 1) {
+                    cout << "Data must be divisible by 2 (an incomplete base pair was entered). Please enter string data" << endl;
+                    cin >> new_data;
+
+                }
+
+                int index;
+                cout << "Enter the insertion index" << endl;
+                cin >> index;
+                while (index % 2 == 1) {
+                    cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                    cin >> index;
+                }
+
+                insert_node(rope, new_data, index);
+            }
+        } else if (choice == "5") {
+            if (ropes.size() < 2) {
+                cout << "There are not enough Ropes to insert" << endl;
+            } else {
+                cout << "These are the existing Ropes: " << endl;
+                display_existing(ropes);
+                string rope_name;
+                cout << "Enter a Rope name to insert into" << endl;
+                cin >> rope_name;
+                tree_node* rope1 = find_rope(ropes, rope_name);
+                while (rope1 == NULL) {
+                    cout << "No rope by the name " << rope_name << " was found" << endl;
+                    cin >> rope_name;
+                    rope1 = find_rope(ropes, rope_name);
+                }
+                string rope_name_insert;
+                cout << "Enter a Rope name to be inserted" << endl;
+                cin >> rope_name_insert;
+                tree_node* rope2 = find_rope(ropes, rope_name_insert);
+                while (rope2 == NULL) {
+                    cout << "No rope by the name " << rope_name_insert << " was found" << endl;
+                    cin >> rope_name_insert;
+                    rope2 = find_rope(ropes, rope_name_insert);
+                }
+                int index;
+                cout << "Enter the insertion index" << endl;
+                cin >> index;
+                while (index % 2 == 1) {
+                    cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                    cin >> index;
+                }
+
+                insert_subtree(rope1, rope2, index);
+            }
+        } else if (choice == "6") {
+            if (ropes.size() == 0) {
+                cout << "There are no Ropes" << endl;
+            } else {
+                cout << "These are the existing Ropes: " << endl;
+                display_existing(ropes);
+                string rope_name;
+                cout << "Enter the Rope to be searched" << endl;
+                cin >> rope_name;
+
+                tree_node* rope = find_rope(ropes, rope_name);
+                while (rope == NULL) {
+                    cout << "No rope by the name " << rope_name << " was found" << endl;
+                    cin >> rope_name;
+                    rope = find_rope(ropes, rope_name);
+                }
+
+                int index;
+                cout << "Enter the search index" << endl;
+                cin >> index;
+                while (index % 2 == 1) {
+                    cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                    cin >> index;
+                }
+
+                string output = index_search(rope, index, true);
+                cout << output << endl;
+            }
+        } else if (choice == "7") {
+            if (ropes.size() == 0) {
+                cout << "There are no Ropes" << endl;
+            } else {
+                cout << "These are the existing Ropes: " << endl;
+                display_existing(ropes);
+                string rope_name;
+                cout << "Enter the Rope to be split" << endl;
+                cin >> rope_name;
+                
+                tree_node* rope = find_rope(ropes, rope_name);
+                while (rope == NULL) {
+                    cout << "No rope by the name " << rope_name << " was found" << endl;
+                    cin >> rope_name;
+                    rope = find_rope(ropes, rope_name);
+                }
+
+                string split_name;
+                cout << "Enter a name for the split Rope" << endl;
+                cin >> split_name;
+                
+                int index;
+                cout << "Enter the split index" << endl;
+                cin >> index;
+                while (index % 2 == 1) {
+                    cout << "That index is not divisible by 2. Only whole base pairs can be indexed. Please enter an even number" << endl;
+                    cin >> index;
+                }
+
+                split_struct split_s;
+                split_tree(rope, index, split_s);
+
+                int original_index = find_rope_index(ropes, rope_name);
+                ropes[original_index].rope = split_s.original;
+
+                rope_data new_rope;
+                new_rope.name = split_name;
+                new_rope.rope = split_s.split;
+                ropes.push_back(new_rope);
+            }
+        } else if (choice == "8") {
+            if (ropes.size() == 0) {
+                cout << "There are no Ropes to display" << endl;
+            } else {
+                string name;
+                cout << "Enter a Rope name" << endl;
+                cin >> name;
+
+                tree_node* rope;
+                for (int i = 0; i < ropes.size(); i++) {
+                    if (ropes[i].name == name) {
+                        rope = ropes[i].rope;
+                    }
+                }
+                string rep = report(rope);
+                if (rep.length() == 0) {
+                    cout << "No rope by that name was found" << endl;
+                } else {
+                    cout << "Data: " << rep << endl;
+                }
             }
         }
-
     } while (exit != true);
 
 

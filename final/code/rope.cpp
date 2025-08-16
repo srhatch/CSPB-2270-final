@@ -2,14 +2,6 @@
 
 #include <iostream>
 
-// Delete
-void print_int(int input) {
-    cout << input << endl;
-}
-void print_str(string input) {
-    cout << input << endl;
-}
-
 tree_node* init_node(string data) {
     tree_node* new_node = new tree_node();
     new_node->left = NULL;
@@ -19,6 +11,7 @@ tree_node* init_node(string data) {
         new_node->is_leaf = false;
         new_node->weight = 0;
     } else {
+        // This is a leaf node
         new_node->is_leaf = true;
         new_node->weight = data.length();
     }
@@ -175,7 +168,6 @@ void collect_traverse(tree_node* current, vector<tree_node*>& ret) {
 
 void collect_visit(tree_node* current, vector<tree_node*>& ret) {
     if (current->is_leaf == true) {
-        //print_str(current->data);
         ret.push_back(current);
     }
 }
@@ -248,11 +240,6 @@ bool insert(tree_node* root, tree_node* new_node, int index) {
 }
 
 tree_node* insert_subtree(tree_node* root, tree_node* subtree, int index) {
-/*
-    if (index > root->weight) {
-        return;
-    }
-*/
     string direction;
     tree_node* parent = find_parent(root, index, direction);
     
@@ -280,8 +267,6 @@ tree_node* split_tree(tree_node* root, int index, split_struct& split_s) {
 tree_node* split(tree_node* root, int index, split_struct& split_s) {
     vector<tree_node*> right_subtrees;
     vector<tree_node*> left_subtrees;
-
-    //vector<tree_node*> ancestors;
 
     tree_node* current = root->left;
     while (current != NULL) {
