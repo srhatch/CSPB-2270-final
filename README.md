@@ -28,9 +28,9 @@ This is the main menu:<br>
 7: Split a Rope<br>
 8: Print Rope string
 
-Each command will contain instructions for how to enter information correctly. There are validation checks on input, but keep in mind the purpose of this is for editing genetic base pairs, so strings of base pairs, as well as indexes for various functions, will need to be divisible by 2. Usefully, option 8 can be used to check the contents of a rope to verify that edits worked properly. Any command that requires entering the name of a Rope will print out a list of the currently saved Ropes as shown below.\
-These are the existing Ropes: 
-foo
+Each command will contain instructions for how to enter information correctly. There are validation checks on input, but keep in mind the purpose of this is for editing genetic base pairs, so strings of base pairs, as well as indexes for various functions, will need to be divisible by 2. Usefully, option 8 can be used to check the contents of a rope to verify that edits worked properly. Any command that requires entering the name of a Rope will print out a list of the currently saved Ropes as shown below.<br>
+These are the existing Ropes:<br>
+foo<br>
 bar
 
 
